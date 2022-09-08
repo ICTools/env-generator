@@ -3,7 +3,6 @@
 namespace Ictools\EnvGenerator;
 
 require_once 'vendor/autoload.php';
-session_start();
 
 use Dotenv\Dotenv;
 use Ictools\EnvGenerator\Generator;

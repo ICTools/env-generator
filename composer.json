@@ -1,7 +1,7 @@
 {
     "name": "ictools/env-generator",
     "description": "This package allows you to generate the env files needed in production by retrieving data from AWS Secret Manager",
-    "type": "project",
+    "type": "library",
     "require": {
         "aws/aws-sdk-php": "^3.235",
         "league/flysystem": "^3.2",

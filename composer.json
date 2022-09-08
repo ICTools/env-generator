@@ -11,6 +11,8 @@
         "roave/security-advisories": "dev-latest"
     },
     "license": "MIT",
+    "minimum-stability": "stable",
+    "prefer-stable": true,
     "autoload": {
         "psr-4": {
             "Ictools\\EnvGenerator\\": "src/"

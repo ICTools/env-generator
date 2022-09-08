@@ -33,5 +33,5 @@ ENV_GENERATOR_SPECIFIC_PATH=
 ## 3. Run
 
 ```bash
-php ./vendor/env-generator/src/generate.php  
+php vendor/ictools/env-generator/src/generate.php
 ```

@@ -11,7 +11,7 @@ class Generator
 {
     public function create(): void
     {
-        $rootPath = dirname(__DIR__, 2);
+        $rootPath = dirname(__DIR__, 4);
 
         $secretsList = $this->getSecretsList();
 

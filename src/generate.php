@@ -7,7 +7,7 @@ require_once 'vendor/autoload.php';
 use Dotenv\Dotenv;
 use Ictools\EnvGenerator\Generator;
 
-$dotenv = Dotenv::createImmutable(dirname(__DIR__, 2));
+$dotenv = Dotenv::createImmutable(dirname(__DIR__, 4));
 $dotenv->load();
 
 if (!array_key_exists('ENV_GENERATOR_PROJECT_NAME', $_ENV)

@@ -15,7 +15,7 @@ class Generator
 
         $secretsList = $this->getSecretsList();
 
-        $componentsList = $this->getComponentsList($secretsList, $_ENV['ENV_GENERATOR_PROJECT_NAME']);
+        $componentsList = $this->getComponentsList($secretsList, getenv("ENV_GENERATOR_PROJECT_NAME"));
 
         if (empty($componentsList)) {
             echo "\e[0;31mOops, we have not found a secret for this project.\e[0m\n";
@@ -24,8 +24,8 @@ class Generator
 
                 $secretsArr = $this->getSecretArr(
                     $secretsList,
-                    $_ENV['ENV_GENERATOR_PROJECT_NAME'],
-                    $_ENV['ENV_GENERATOR_APP_ENV'],
+                    getenv('ENV_GENERATOR_PROJECT_NAME'),
+                    getenv('ENV_GENERATOR_APP_ENV'),
                     $component
                 );
 
@@ -34,15 +34,12 @@ class Generator
                     $content .= "$key=$value\n";
                 }
 
-                $specificPath = '';
-                if (array_key_exists('ENV_GENERATOR_SPECIFIC_PATH', $_ENV)){
-                    $specificPath = $_ENV['ENV_GENERATOR_SPECIFIC_PATH'];
-                }
+                $specificPath = getenv('ENV_GENERATOR_SPECIFIC_PATH');
 
                 $adapter = new LocalFilesystemAdapter("$rootPath/$component/$specificPath");
                 $filesystem = new Filesystem($adapter);
 
-                $env = $_ENV['ENV_GENERATOR_APP_ENV'];
+                $env = getenv('ENV_GENERATOR_APP_ENV');
                 $filesystem->write("$env.env", $content);
             }
             echo "\e[0;32mCongratulations, your files are generated! Coffee time!\e[0m\n";

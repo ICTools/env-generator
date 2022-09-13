@@ -1,12 +1,13 @@
 # ENV GENERATOR
 
-
-The architecture imagined to use this component is a [monorepo](https://en.wikipedia.org/wiki/Monorepo).
+The architecture imagined to use this component is a [monorepo](https://en.wikipedia.org/wiki/Monorepo) deployed on an AWS EC2 instance.
 
 This tool allows you to download environment variables from AWS Secrets Manager and add them to your environment files.
 It is useful if you have several components.
 
-Run this in the root of your project:
+This component also allows you to retrieve a secret directly in your code. This makes it easier to rotate secrets in a small to medium application.
+
+**Run this in the root of your project:**
 ```bash
 composer require ictools/env-generator  
 ```
@@ -17,7 +18,9 @@ composer require ictools/env-generator
 
 - Create a secret in [AWS Secrets Manager](https://eu-west-3.console.aws.amazon.com/secretsmanager) :
 - You can have several keys/values in a secret
-- Secret name: '**projectName/env/component/secretName**' ⚠️ 
+- Secret name: '**projectName/env/component/secretName**'* ⚠
+
+(*) E.g.: mysite/prod/app/top_secret
 
 ### 2. .Env
 
@@ -61,3 +64,5 @@ php vendor/ictools/env-generator/src/generate.php
 ```
 
 > Don't forget : ENV_GENERATOR_APP_ENV=prod
+
+Use it directy

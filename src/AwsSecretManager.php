@@ -15,10 +15,10 @@ class AwsSecretManager
     {
         return new SecretsManagerClient([
             'version' => '2017-10-17',
-            'region' => $_ENV['ENV_GENERATOR_AWS_REGION'],
+            'region' => getenv("ENV_GENERATOR_AWS_REGION"),
             'credentials' => [
-                'key' => $_ENV['ENV_GENERATOR_AWS_USER_KEY'],
-                'secret' => $_ENV['ENV_GENERATOR_AWS_USER_SECRET'],
+                'key' => getenv("ENV_GENERATOR_AWS_USER_KEY"),
+                'secret' => getenv("ENV_GENERATOR_AWS_USER_SECRET"),
             ]
         ]);
     }

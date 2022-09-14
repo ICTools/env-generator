@@ -5,7 +5,8 @@ namespace Ictools\EnvGenerator;
 use Aws\Exception\AwsException;
 use League\Flysystem\Filesystem;
 use League\Flysystem\Local\LocalFilesystemAdapter;
-use League\Flysystem\StorageAttributes;
+use League\Flysystem\FilesystemException;
+use League\Flysystem\UnableToCheckExistence;
 
 class Generator
 {
@@ -15,7 +16,7 @@ class Generator
 
         $secretsList = $this->getSecretsList();
 
-        $componentsList = $this->getComponentsList($secretsList, getenv("ENV_GENERATOR_PROJECT_NAME"));
+        $componentsList = $this->getComponentsList($secretsList, $_SERVER["ENV_GENERATOR_PROJECT_NAME"]);
 
         if (empty($componentsList)) {
             echo "\e[0;31mOops, we have not found a secret for this project.\e[0m\n";
@@ -24,8 +25,8 @@ class Generator
 
                 $secretsArr = $this->getSecretArr(
                     $secretsList,
-                    getenv('ENV_GENERATOR_PROJECT_NAME'),
-                    getenv('ENV_GENERATOR_APP_ENV'),
+                    $_SERVER['ENV_GENERATOR_PROJECT_NAME'],
+                    $_SERVER['ENV_GENERATOR_APP_ENV'],
                     $component
                 );
 
@@ -34,36 +35,46 @@ class Generator
                     $content .= "$key=$value\n";
                 }
 
-                $specificPath = getenv('ENV_GENERATOR_SPECIFIC_PATH');
+                $specificPath = $_SERVER['ENV_GENERATOR_SPECIFIC_PATH'];
 
                 $adapter = new LocalFilesystemAdapter("$rootPath/$component/$specificPath");
                 $filesystem = new Filesystem($adapter);
 
-                $env = getenv('ENV_GENERATOR_APP_ENV');
+                $env = $_SERVER['ENV_GENERATOR_APP_ENV'];
                 $filesystem->write("$env.env", $content);
             }
             echo "\e[0;32mCongratulations, your files are generated! Coffee time!\e[0m\n";
         }
     }
 
+    public function isFileExist($path, $file): bool
+    {
+        $adapter = new LocalFilesystemAdapter($path);
+        return (new Filesystem($adapter))->fileExists($file);
+    }
+
     private function getSecretsList(): array
     {
         $AwsSecretManager = new AwsSecretManager();
         try {
-            return $AwsSecretManager->getListSecrets()?->get('SecretList');
+            $result = $AwsSecretManager->getListSecrets()?->get('SecretList');
         } catch (AwsException $exception){
             echo $exception->getMessage();
         }
+
+        return $result;
     }
 
     private function getSecretValue($secretName): array
     {
         $AwsSecretManager = new AwsSecretManager();
         try {
-            return $AwsSecretManager->getSecretValue($secretName);
+            $result = $AwsSecretManager->getSecretValue($secretName);
         } catch (AwsException $exception){
             echo $exception->getMessage();
         }
+
+        return $result;
     }
 
     private function getSecretArr(array $secretsList, string $projectName, string $env, string $component): array

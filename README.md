@@ -1,15 +1,22 @@
-# ENV GENERATOR
+# Env Generator
 
 The architecture imagined to use this component is a [monorepo](https://en.wikipedia.org/wiki/Monorepo) deployed on an AWS EC2 instance.
 
 This tool allows you to download environment variables from AWS Secrets Manager and add them to your environment files.
 It is useful if you have several components.
 
-This component also allows you to retrieve a secret directly in your code. This makes it easier to rotate secrets in a small to medium application.
-
-**Run this in the root of your project:**
-```bash
-composer require ictools/env-generator  
+```
+monorepo
+├── api                 # An api component
+│   ├── env             # If ENV_GENERATOR_SPECIFIC_PATH=env
+│   │   └── prod.env    # env-generator will generate this file
+│   └── ...             
+├── redis               
+│   ├── env             # If ENV_GENERATOR_SPECIFIC_PATH=env  
+│   │   └── prod.env    # env-generator will generate this file
+│   └── ... 
+├── ... 
+└── .env                # Specify here the environment variables for env-generator
 ```
 
 ## Install
@@ -22,7 +29,7 @@ composer require ictools/env-generator
 
 (*) E.g.: mysite/prod/app/top_secret
 
-### 2. .Env
+### 2. Create .env
 
 Add this to the root of your project
 
@@ -39,30 +46,19 @@ ENV_GENERATOR_AWS_REGION=
 ENV_GENERATOR_SPECIFIC_PATH=
 ```
 
-## Getting started
+### 3. Run
 
-### Generate .env files
+**Run this in the root of your project:**
 
-```
-monorepo
-├── api                 # An api component
-│   ├── env             # If ENV_GENERATOR_SPECIFIC_PATH=env
-│   │   └── prod.env    # env-generator will generate this file
-│   └── ...             
-├── redis               
-│   ├── env             # If ENV_GENERATOR_SPECIFIC_PATH=env  
-│   │   └── prod.env    # env-generator will generate this file
-│   └── ... 
-├── ... 
-└── .env                # Specify here the environment variables for env-generator
-```
-
-To generate the prod.env files, run this command in production
+#### With Docker
 
 ```bash
-php vendor/ictools/env-generator/src/generate.php
+docker run --env-file .env -v ${PWD}:/app davidgodefroid/env-generator:v1
 ```
 
-> Don't forget : ENV_GENERATOR_APP_ENV=prod
+#### Or with php stript
 
-Use it directy
+```bash
+composer require ictools/env-generator  
+php vendor/ictools/env-generator/src/generate.php
+```

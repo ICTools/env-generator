@@ -27,7 +27,7 @@ monorepo
 - You can have several keys/values in a secret
 - Secret name: '**projectName/env/component/secretName**'* ⚠
 
-(*) E.g.: mysite/prod/app/top_secret
+(*) E.g.: mysite/prod/api/top_secret
 
 ### 2. Create .env
 

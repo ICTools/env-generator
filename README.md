@@ -56,7 +56,7 @@ ENV_GENERATOR_SPECIFIC_PATH=
 docker run --env-file .env -v ${PWD}:/app davidgodefroid/env-generator:v1
 ```
 
-#### Or with php stript
+#### Or with php script
 
 ```bash
 composer require ictools/env-generator  

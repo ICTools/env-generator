@@ -3,9 +3,10 @@
     "description": "This package allows you to generate the env files needed in production by retrieving data from AWS Secret Manager",
     "type": "library",
     "require": {
-        "aws/aws-sdk-php": "^3.235",
+        "aws/aws-sdk-php": "^3",
         "league/flysystem": "^3.2",
-        "vlucas/phpdotenv": "^5.4"
+        "vlucas/phpdotenv": "^5.4",
+        "guzzlehttp/psr7": ">=2.4.5"
     },
     "require-dev": {
         "roave/security-advisories": "dev-latest"
